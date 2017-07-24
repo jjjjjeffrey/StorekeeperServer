@@ -20,6 +20,11 @@ extension Droplet {
 
         get("description") { req in return req.description }
         
+        group("v1") { v1 in
+            let sms = SMSController()
+            v1.post("sendCode", handler: sms.sendSMSCode)
+        }
+        
         try resource("posts", PostController.self)
     }
 }
