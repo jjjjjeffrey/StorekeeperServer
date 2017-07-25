@@ -8,8 +8,11 @@
 
 import Foundation
 
+protocol CustomResponsCode: CustomStringConvertible {
+    var rawValue: Int { get }
+}
 
-enum AppResponseCode: Int, CustomStringConvertible {
+enum AppResponseCode: Int, CustomResponsCode {
     case success
     case parameterError = 101
     case neteaseApiError = 102
@@ -26,10 +29,10 @@ enum AppResponseCode: Int, CustomStringConvertible {
 }
 
 struct AppResponse: ResponseRepresentable {
-    let code: AppResponseCode
+    let code: CustomResponsCode
     let data: JSON?
     
-    init(code: AppResponseCode, data: JSON? = nil) {
+    init(code: CustomResponsCode, data: JSON? = nil) {
         self.code = code
         self.data = data
     }
