@@ -16,44 +16,44 @@ final class SMSController {
     func sendSMSCode(_ req: Request) throws -> ResponseRepresentable {
         
         guard let mobile = req.data["mobile"]?.string else {
-            throw Abort.badRequest
+            return AppResponse(code: .parameterError)
         }
         
         do {
-            let response = try sendCodeTo(mobile: mobile)
-            print("\(response.description)")
-        } catch let error {
-            print("Error \(error)")
+            let response = try NeteaseAPI.sendCodeTo(mobile: mobile)
+            guard let code = response.json?["code"]?.int, code == 200 else {
+                return AppResponse(code: .neteaseApiError)
+            }
+            return AppResponse(code: .success)
+        } catch {
+            throw Abort.badRequest
         }
         
+    }
+    
+    func authSMSCode(_ req: Request) throws -> ResponseRepresentable {
         
-        return ""
+        guard let code = req.data["code"]?.string, let mobile = req.data["mobile"]?.string else {
+            return AppResponse(code: .parameterError)
+        }
+        
+        do {
+            let response = try NeteaseAPI.authCode(code: code, mobile: mobile)
+            guard let code = response.json?["code"]?.int, code == 200 else {
+                return AppResponse(code: .neteaseApiError)
+            }
+            return AppResponse(code: .success)
+        } catch {
+            throw Abort.badRequest
+        }
+        
     }
     
     
-    private func sendCodeTo(mobile: String) throws -> Response {
-        
-        let appkey = "2d1713dc04ad9d4ed247a66883951c1d"
-        let nonce = randomCustom(min: 0, max: 10000)
-        let curTime = Int(Date().timeIntervalSince1970)
-        let appSecret = "578629c4bd3e"
-        let checksum = "\(appSecret)\(nonce)\(curTime)".sha1()
-        
-        let headers: [HeaderKey: String] = ["AppKey": appkey,
-                       "Nonce": "\(nonce)",
-                       "CurTime": "\(curTime)",
-                       "CheckSum": "\(checksum)"]
-        let req = Request(method: .post, uri: "https://api.netease.im/sms/sendcode.action", headers: headers)
-        req.formURLEncoded = try Node(node: ["mobile": mobile])
-        print("\(req.description)")
-        return try App.share.drop.client.respond(to: req)
-    }
     
-    func randomCustom(min: Int, max: Int) -> Int {
-        let y = arc4random() % UInt32(max) + UInt32(min)
-        print(Int(y))
-        return Int(y)
-    }
+    
+    
+    
     
 
 }
