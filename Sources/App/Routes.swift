@@ -8,6 +8,7 @@ extension Droplet {
         post("smsCode", handler: SMSController().sendSMSCode)
         post("authSMSCode", handler: SMSController().authSMSCode)
         post("userRegister", handler: PassportController().mobileRegister)
+        post("userLogin", handler: PassportController().mobileLogin)
         
         
         try resource("posts", PostController.self)

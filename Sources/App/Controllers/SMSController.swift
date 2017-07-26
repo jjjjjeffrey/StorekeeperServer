@@ -24,7 +24,7 @@ final class SMSController {
             guard let code = response.json?["code"]?.int, code == 200 else {
                 return AppResponse(code: AppResponseCode.neteaseApiError)
             }
-            return AppResponse(code: AppResponseCode.success)
+            return AppResponse()
         } catch {
             throw Abort.badRequest
         }
@@ -42,7 +42,7 @@ final class SMSController {
             guard let code = response.json?["code"]?.int, code == 200 else {
                 return AppResponse(code: AppResponseCode.neteaseApiError)
             }
-            return AppResponse(code: AppResponseCode.success)
+            return AppResponse()
         } catch {
             throw Abort.badRequest
         }

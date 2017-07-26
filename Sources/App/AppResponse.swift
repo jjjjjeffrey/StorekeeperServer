@@ -32,7 +32,7 @@ struct AppResponse: ResponseRepresentable {
     let code: CustomResponsCode
     let data: JSON?
     
-    init(code: CustomResponsCode, data: JSON? = nil) {
+    init(code: CustomResponsCode = AppResponseCode.success, data: JSON? = nil) {
         self.code = code
         self.data = data
     }
