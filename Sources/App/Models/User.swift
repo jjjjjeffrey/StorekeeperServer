@@ -74,7 +74,6 @@ extension User: JSONConvertible {
         var json = JSON()
         try json.set(User.idKey, id)
         try json.set(User.mobileKey, mobile)
-        try json.set(User.passwordKey, password)
         try json.set(User.shopNameKey, shopName)
         return json
     }

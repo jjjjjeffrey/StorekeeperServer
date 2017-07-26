@@ -10,7 +10,6 @@ import Foundation
 import Vapor
 import HTTP
 import JWT
-import Redis
 
 enum PassportResponseCode: Int, CustomResponsCode {
     case userExist = 1001
@@ -76,8 +75,39 @@ final class PassportController {
         try App.share.drop.cache.set(tokenUserKey, token)
         try App.share.drop.cache.set("tokens:\(token)", user.mobile)
         
+        var json = try user.makeJSON()
+        try json.set("token", token)
+        return AppResponse(data: json)
+    }
+    
+    func getUserInfo(_ req: Request) throws -> ResponseRepresentable {
         
-        return AppResponse()
+        guard let user = try req.user() else {
+            throw Abort.unauthorized
+        }
+        
+        
+        return AppResponse(data: try user.makeJSON())
+    }
+    
+}
+
+extension Request {
+    
+    func user() throws -> User? {
+        guard let token = headers["token"] else {
+            return nil
+        }
+        
+        guard let mobile: Int = try App.share.drop.cache.get("tokens:\(token)")?.int else {
+            return nil
+        }
+        
+        guard let user = try User.makeQuery().filter("mobile", .equals, mobile).first() else {
+            return nil
+        }
+        
+        return user
     }
     
 }
