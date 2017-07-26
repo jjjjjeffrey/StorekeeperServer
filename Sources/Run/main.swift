@@ -1,5 +1,5 @@
 import App
-import MySQLProvider
+
 
 /// We have isolated all of our App's logic into
 /// the App module because it makes our app
@@ -17,11 +17,6 @@ import MySQLProvider
 ///
 /// .run() runs the Droplet's commands, 
 /// if no command is given, it will default to "serve"
-let config = try Config()
-try config.addProvider(MySQLProvider.Provider.self)
-try config.setup()
 
-let drop = try Droplet(config)
-try drop.setup()
-
-try drop.run()
+var app = App.share
+try app.run()

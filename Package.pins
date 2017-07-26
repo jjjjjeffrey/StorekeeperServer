@@ -44,6 +44,12 @@
       "version": "2.0.0"
     },
     {
+      "package": "CryptoSwift",
+      "reason": null,
+      "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+      "version": "0.6.9"
+    },
+    {
       "package": "Debugging",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/debugging.git",
@@ -72,6 +78,12 @@
       "reason": null,
       "repositoryURL": "https://github.com/vapor/json.git",
       "version": "2.0.2"
+    },
+    {
+      "package": "JWT",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/jwt.git",
+      "version": "2.2.1"
     },
     {
       "package": "Multipart",
@@ -108,6 +120,18 @@
       "reason": null,
       "repositoryURL": "https://github.com/vapor/random.git",
       "version": "1.0.0"
+    },
+    {
+      "package": "Redis",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/redis.git",
+      "version": "2.0.0"
+    },
+    {
+      "package": "RedisProvider",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/redis-provider.git",
+      "version": "2.0.0"
     },
     {
       "package": "Routing",
