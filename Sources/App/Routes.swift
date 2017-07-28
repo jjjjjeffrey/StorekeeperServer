@@ -13,6 +13,9 @@ extension Droplet {
         let auth = grouped(AuthenticationMiddleware())
         auth.get("user", handler: PassportController().getUserInfo)
         
+        try auth.resource("goodsCategory", GoodsCategoryController.self)
+        
         try resource("posts", PostController.self)
+        
     }
 }

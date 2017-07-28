@@ -98,3 +98,12 @@ extension User: Updateable {
         ]
     }
 }
+
+
+//relations
+
+extension User {
+    var goodsCategories: Children<User, GoodsCategory> {
+        return children()
+    }
+}
