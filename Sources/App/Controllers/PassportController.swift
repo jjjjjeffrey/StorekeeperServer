@@ -39,6 +39,12 @@ final class PassportController {
             let user = User(mobile: mobile, password: password, shopName: shopName)
             try user.save()
             
+            let id = try user.assertExists()
+            let goodsCategory = GoodsCategory(name: "默认分类")
+            goodsCategory.userId = id
+            try goodsCategory.save()
+            
+            
             return AppResponse(data: try user.makeJSON())
             
         }
@@ -57,25 +63,18 @@ final class PassportController {
             try group.filter("password", .equals, password)
         }
         
-        guard let user = try users.first() else {
+        guard let user = try users.first(), let id = user.id?.string else {
             return AppResponse(code: PassportResponseCode.userOrPassError)
         }
         
         var payload = JSON()
         try payload.set("timestamp", Date().timeIntervalSince1970)
+        try payload.set("id", id)
         let jwt = try JWT(payload: payload, signer: SKSigner())
         let token = try jwt.createToken()
         
-        
-        let tokenUserKey = "user:\(user.mobile):token"
-        
-        if let oldToken: String = try App.share.drop.cache.get(tokenUserKey)?.get() {
-            try App.share.drop.cache.delete("tokens:\(oldToken)")
-        }
-        
-        try App.share.drop.cache.set(tokenUserKey, token)
-        try App.share.drop.cache.set("tokens:\(token)", user.mobile)
-        
+        try RedisCache.userToken(id).set(token)
+
         var json = try user.makeJSON()
         try json.set("token", token)
         return AppResponse(data: json)
@@ -100,11 +99,11 @@ extension Request {
             return nil
         }
         
-        guard let mobile: Int = try App.share.drop.cache.get("tokens:\(token)")?.int else {
+        guard let id = try JWT(token: token).payload["id"]?.string else {
             return nil
         }
         
-        guard let user = try User.makeQuery().filter("mobile", .equals, mobile).first() else {
+        guard let user = try User.find(id) else {
             return nil
         }
         

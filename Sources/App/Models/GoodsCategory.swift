@@ -13,9 +13,11 @@ import HTTP
 final class GoodsCategory: Model {
     let storage = Storage()
     
+    var userId: Identifier?
     var name: String
     
     static let idKey = "id"
+    static let userIdKey = "user_id"
     static let nameKey = "name"
     
     init(name: String) {
@@ -23,11 +25,13 @@ final class GoodsCategory: Model {
     }
     
     init(row: Row) throws {
+        userId = try row.get(GoodsCategory.userIdKey)
         name = try row.get(GoodsCategory.nameKey)
     }
     
     func makeRow() throws -> Row {
         var row = Row()
+        try row.set(GoodsCategory.userIdKey, userId)
         try row.set(GoodsCategory.nameKey, name)
         return row
     }
