@@ -14,6 +14,7 @@ extension Droplet {
         auth.get("user", handler: PassportController().getUserInfo)
         
         try auth.resource("goodsCategory", GoodsCategoryController.self)
+        try auth.resource("goodsUnit", GoodsUnitController.self)
         
         try resource("posts", PostController.self)
         

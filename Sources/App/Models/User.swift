@@ -106,4 +106,8 @@ extension User {
     var goodsCategories: Children<User, GoodsCategory> {
         return children()
     }
+    
+    var goodsUnits: Children<User, GoodsUnit> {
+        return children()
+    }
 }

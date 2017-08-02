@@ -44,6 +44,10 @@ final class PassportController {
             goodsCategory.userId = id
             try goodsCategory.save()
             
+            let goodsUnit = GoodsCategory(name: "个")
+            goodsUnit.userId = id
+            try goodsUnit.save()
+            
             
             return AppResponse(data: try user.makeJSON())
             

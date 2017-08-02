@@ -23,5 +23,6 @@ extension Config {
         preparations.append(Post.self)
         preparations.append(User.self)
         preparations.append(GoodsCategory.self)
+        preparations.append(GoodsUnit.self)
     }
 }
