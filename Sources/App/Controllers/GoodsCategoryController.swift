@@ -45,13 +45,16 @@ final class GoodsCategoryController: ResourceRepresentable {
 
         let category = try req.goodscategory()
         
-        let cs = try GoodsCategory.makeQuery().filter("name", .equals, category.name)
+        let cs = try GoodsCategory.makeQuery().and { group in
+            try group.filter("name", .equals, category.name)
+            try group.filter("user_id", .equals, id)
+        }
         if let _  = try cs.first() {
             return AppResponse(code: GoodsCategoryResponseCode.categoryExist)
         } else {
             category.userId = id
             try category.save()
-            return category
+            return AppResponse(data: try category.makeJSON())
         }
         
     }
