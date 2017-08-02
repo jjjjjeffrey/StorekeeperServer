@@ -110,4 +110,17 @@ extension User {
     var goodsUnits: Children<User, GoodsUnit> {
         return children()
     }
+    
+    var goods: Children<User, Goods> {
+        return children()
+    }
 }
+
+
+
+
+
+
+
+
+
