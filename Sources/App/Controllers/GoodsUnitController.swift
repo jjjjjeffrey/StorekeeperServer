@@ -26,7 +26,7 @@ final class GoodsUnitController: ResourceRepresentable {
         
         let unit = try req.goodsUnit()
         
-        let cs = try req.user().goodsUnits.filter("name", .equals, unit.name)
+        let cs = try req.user().goodsUnits.filter(GoodsUnit.nameKey, .equals, unit.name)
         if let _  = try cs.first() {
             return AppResponse(code: GoodsUnitResponseCode.unitExist)
         } else {

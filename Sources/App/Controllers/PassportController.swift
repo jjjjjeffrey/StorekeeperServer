@@ -21,7 +21,7 @@ final class PassportController {
             return AppResponse(code: AppResponseCode.parameterError)
         }
         
-        guard let _ = try User.makeQuery().filter("mobile", .equals, mobile).first() else {
+        guard let _ = try User.makeQuery().filter(User.mobileKey, .equals, mobile).first() else {
             let user = User(mobile: mobile, password: password, shopName: shopName)
             try user.save()
             
@@ -30,7 +30,7 @@ final class PassportController {
             goodsCategory.userId = id
             try goodsCategory.save()
             
-            let goodsUnit = GoodsCategory(name: "个")
+            let goodsUnit = GoodsUnit(name: "个")
             goodsUnit.userId = id
             try goodsUnit.save()
             
@@ -49,8 +49,8 @@ final class PassportController {
         }
         
         let users = try User.makeQuery().and { (group) in
-            try group.filter("mobile", .equals, mobile)
-            try group.filter("password", .equals, password)
+            try group.filter(User.mobileKey, .equals, mobile)
+            try group.filter(User.passwordKey, .equals, password)
         }
         
         guard let user = try users.first(), let id = user.id?.string else {

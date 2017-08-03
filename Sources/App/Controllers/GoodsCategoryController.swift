@@ -22,7 +22,7 @@ final class GoodsCategoryController: ResourceRepresentable {
 
         let category = try req.goodscategory()
         
-        let cs = try req.user().goodsCategories.filter("name", .equals, category.name)
+        let cs = try req.user().goodsCategories.filter(GoodsCategory.nameKey, .equals, category.name)
         if let _  = try cs.first() {
             return AppResponse(code: GoodsCategoryResponseCode.categoryExist)
         } else {

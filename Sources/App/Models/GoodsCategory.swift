@@ -17,7 +17,7 @@ final class GoodsCategory: Model {
     var name: String
     
     static let idKey = "id"
-    static let userIdKey = "user_id"
+    static let userIdKey = "userId"
     static let nameKey = "name"
     
     init(name: String) {

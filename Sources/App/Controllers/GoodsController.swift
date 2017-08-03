@@ -18,7 +18,7 @@ final class GoodsController: ResourceRepresentable {
             return AppResponse(data: try req.user().goods.all().makeJSON())
         }
         
-        return AppResponse(data: try req.user().goods.filter("category", .equals, category).all().makeJSON())
+        return AppResponse(data: try req.user().goods.filter(Goods.categoryKey, .equals, category).all().makeJSON())
         
     }
     
@@ -27,8 +27,8 @@ final class GoodsController: ResourceRepresentable {
         let goods = try req.goods()
         
         let g = try req.user().goods.and { group in
-            try group.filter("name", .equals, goods.name)
-            try group.filter("bar_code", .equals, goods.barCode)
+            try group.filter(Goods.nameKey, .equals, goods.name)
+            try group.filter(Goods.barCodeKey, .equals, goods.barCode)
         }
         if let _  = try g.first() {
             return AppResponse(code: GoodsResponseCode.goodsExist)

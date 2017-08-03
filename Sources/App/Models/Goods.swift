@@ -22,13 +22,13 @@ final class Goods: Model {
     var sellPrice: Double
     
     static let idKey = "id"
-    static let userIdKey = "user_id"
+    static let userIdKey = "userId"
     static let nameKey = "name"
-    static let barCodeKey = "bar_code"
+    static let barCodeKey = "barCode"
     static let categoryKey = "category"
     static let unitKey = "unit"
     static let stockKey = "stock"
-    static let sellPriceKey = "sell_price"
+    static let sellPriceKey = "sellPrice"
     
     init(name: String,
          category: String,
