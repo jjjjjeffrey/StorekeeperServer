@@ -15,6 +15,7 @@ extension Droplet {
         
         try auth.resource("goodsCategory", GoodsCategoryController.self)
         try auth.resource("goodsUnit", GoodsUnitController.self)
+        try auth.resource("goods", GoodsController.self)
         
         try resource("posts", PostController.self)
         

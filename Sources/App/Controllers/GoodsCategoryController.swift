@@ -10,49 +10,23 @@ import Foundation
 import Vapor
 import HTTP
 
-enum GoodsCategoryResponseCode: Int, CustomResponsCode {
-    case categoryExist = 1101
-    
-    var description: String {
-        get {
-            switch self {
-            case .categoryExist: return "该分类已存在"
-            }
-        }
-    }
-}
-
 final class GoodsCategoryController: ResourceRepresentable {
     
     /// GET /goodsCategory
     func index(_ req: Request) throws -> ResponseRepresentable {
-        
-        let user = try req.user()
-        guard let json = try user?.goodsCategories.all().makeJSON() else {
-            return AppResponse(code: AppResponseCode.success)
-        }
-        
-        
-        return AppResponse(data: json)
+        return AppResponse(data: try req.user().goodsCategories.all().makeJSON())
     }
     
     /// POST /goodsCategory
     func create(_ req: Request) throws -> ResponseRepresentable {
-        
-        guard let id = try req.user()?.id else {
-            throw Abort.unauthorized
-        }
 
         let category = try req.goodscategory()
         
-        let cs = try GoodsCategory.makeQuery().and { group in
-            try group.filter("name", .equals, category.name)
-            try group.filter("user_id", .equals, id)
-        }
+        let cs = try req.user().goodsCategories.filter(GoodsCategory.nameKey, .equals, category.name)
         if let _  = try cs.first() {
             return AppResponse(code: GoodsCategoryResponseCode.categoryExist)
         } else {
-            category.userId = id
+            category.userId = try req.userId()
             try category.save()
             return AppResponse(data: try category.makeJSON())
         }

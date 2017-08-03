@@ -11,20 +11,6 @@ import Vapor
 import HTTP
 import JWT
 
-enum PassportResponseCode: Int, CustomResponsCode {
-    case userExist = 1001
-    case userOrPassError = 1002
-    
-    var description: String {
-        get {
-            switch self {
-            case .userExist: return "用户已存在"
-            case .userOrPassError: return "用户名或密码错误"
-            }
-        }
-    }
-}
-
 final class PassportController {
     
     func mobileRegister(_ req: Request) throws -> ResponseRepresentable {
@@ -35,7 +21,7 @@ final class PassportController {
             return AppResponse(code: AppResponseCode.parameterError)
         }
         
-        guard let _ = try User.makeQuery().filter("mobile", .equals, mobile).first() else {
+        guard let _ = try User.makeQuery().filter(User.mobileKey, .equals, mobile).first() else {
             let user = User(mobile: mobile, password: password, shopName: shopName)
             try user.save()
             
@@ -44,7 +30,7 @@ final class PassportController {
             goodsCategory.userId = id
             try goodsCategory.save()
             
-            let goodsUnit = GoodsCategory(name: "个")
+            let goodsUnit = GoodsUnit(name: "个")
             goodsUnit.userId = id
             try goodsUnit.save()
             
@@ -63,8 +49,8 @@ final class PassportController {
         }
         
         let users = try User.makeQuery().and { (group) in
-            try group.filter("mobile", .equals, mobile)
-            try group.filter("password", .equals, password)
+            try group.filter(User.mobileKey, .equals, mobile)
+            try group.filter(User.passwordKey, .equals, password)
         }
         
         guard let user = try users.first(), let id = user.id?.string else {
@@ -86,32 +72,40 @@ final class PassportController {
     
     func getUserInfo(_ req: Request) throws -> ResponseRepresentable {
         
-        guard let user = try req.user() else {
-            throw Abort.unauthorized
-        }
-        
-        
-        return AppResponse(data: try user.makeJSON())
+        return AppResponse(data: try req.user().makeJSON())
     }
     
 }
 
 extension Request {
     
-    func user() throws -> User? {
+    func user() throws -> User {
         guard let token = headers["token"] else {
-            return nil
+            throw Abort.unauthorized
         }
         
         guard let id = try JWT(token: token).payload["id"]?.string else {
-            return nil
+            throw Abort.unauthorized
         }
         
         guard let user = try User.find(id) else {
-            return nil
+            throw Abort.unauthorized
         }
         
         return user
+    }
+    
+    func userId() throws -> Identifier {
+        guard let token = headers["token"] else {
+            throw Abort.unauthorized
+        }
+        
+        guard let id = try JWT(token: token).payload["id"]?.int else {
+            throw Abort.unauthorized
+        }
+        
+        
+        return Identifier(id)
     }
     
 }

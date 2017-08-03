@@ -24,5 +24,6 @@ extension Config {
         preparations.append(User.self)
         preparations.append(GoodsCategory.self)
         preparations.append(GoodsUnit.self)
+        preparations.append(Goods.self)
     }
 }
