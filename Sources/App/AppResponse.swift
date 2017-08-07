@@ -96,5 +96,17 @@ enum GoodsResponseCode: Int, CustomResponsCode {
     }
 }
 
+enum GoodsStockResponseCode: Int, CustomResponsCode {
+    case goodsNotExist = 1401
+    
+    var description: String {
+        get {
+            switch self {
+            case .goodsNotExist: return "商品不存在"
+            }
+        }
+    }
+}
+
 
 

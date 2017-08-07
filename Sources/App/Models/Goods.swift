@@ -127,3 +127,11 @@ extension Goods: Updateable {
         ]
     }
 }
+
+//relations
+
+extension Goods {
+    var goodsStocks: Children<Goods, GoodsStock> {
+        return children()
+    }
+}

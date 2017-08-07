@@ -25,5 +25,6 @@ extension Config {
         preparations.append(GoodsCategory.self)
         preparations.append(GoodsUnit.self)
         preparations.append(Goods.self)
+        preparations.append(GoodsStock.self)
     }
 }
