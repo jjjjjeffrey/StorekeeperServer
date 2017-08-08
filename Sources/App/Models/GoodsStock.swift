@@ -98,7 +98,7 @@ extension GoodsStock: JSONConvertible {
 }
 
 extension GoodsStock: ResponseRepresentable { }
-
+extension GoodsStock: Timestampable { }
 
 extension GoodsStock: Updateable {
     

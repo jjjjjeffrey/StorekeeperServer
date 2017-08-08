@@ -80,7 +80,7 @@ extension User: JSONConvertible {
 }
 
 extension User: ResponseRepresentable { }
-
+extension User: Timestampable { }
 
 extension User: Updateable {
 

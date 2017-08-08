@@ -70,7 +70,7 @@ extension GoodsCategory: JSONConvertible {
 }
 
 extension GoodsCategory: ResponseRepresentable { }
-
+extension GoodsCategory: Timestampable { }
 
 extension GoodsCategory: Updateable {
     

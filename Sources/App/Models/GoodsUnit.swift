@@ -70,7 +70,7 @@ extension GoodsUnit: JSONConvertible {
 }
 
 extension GoodsUnit: ResponseRepresentable { }
-
+extension GoodsUnit: Timestampable { }
 
 extension GoodsUnit: Updateable {
     

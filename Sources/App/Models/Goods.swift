@@ -115,7 +115,7 @@ extension Goods: JSONConvertible {
 }
 
 extension Goods: ResponseRepresentable { }
-
+extension Goods: Timestampable { }
 
 extension Goods: Updateable {
     
