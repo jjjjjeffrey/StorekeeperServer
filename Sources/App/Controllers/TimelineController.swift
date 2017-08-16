@@ -9,11 +9,14 @@
 import Foundation
 import Vapor
 import HTTP
+import SwiftDate
 
 final class TimelineController: ResourceRepresentable {
     
     func index(_ req: Request) throws -> ResponseRepresentable {
-        return AppResponse(data: try req.user().timelines.all().makeJSON())
+        let today = Date().string(format: .custom("yyyy-MM-dd"))
+        let data = try req.user().timelines.filter(Timeline.createdAtKey, .greaterThan, today).sort(Timeline.createdAtKey, .descending).all().makeJSON()
+        return AppResponse(data: data)
     }
     
     func makeResource() -> Resource<Timeline> {

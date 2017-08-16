@@ -43,8 +43,8 @@ final class Timeline: Model {
     
     convenience init(stock: GoodsStock) {
         let userId = stock.userId
-        let title = "进货商品 \(stock.goodsName)"
-        let content = "进货价：\(stock.price), 进货数量：\(stock.count)"
+        let title = stock.goodsName
+        let content = "进货价 \(stock.price)  进货数量 \(stock.count)"
         let type: TimelineType = .stockIn
         self.init(userId: userId, title: title, content: content, type: type)
     }
@@ -104,6 +104,7 @@ extension Timeline: JSONConvertible {
         try json.set(Timeline.titleKey, title)
         try json.set(Timeline.contentKey, content)
         try json.set(Timeline.typeKey, type.rawValue)
+        try json.set(Timeline.createdAtKey, createdAt)
         return json
     }
 }
