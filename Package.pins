@@ -152,6 +152,12 @@
       "version": "2.0.1"
     },
     {
+      "package": "SwiftDate",
+      "reason": null,
+      "repositoryURL": "https://github.com/malcommac/SwiftDate.git",
+      "version": "4.1.7"
+    },
+    {
       "package": "TLS",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/tls.git",
