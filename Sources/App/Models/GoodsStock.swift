@@ -13,7 +13,7 @@ import HTTP
 final class GoodsStock: Model {
     let storage = Storage()
     
-    var userId: Identifier?
+    var userId: Identifier
     var goodsId: Identifier
     var count: Int
     var price: Double
@@ -27,10 +27,12 @@ final class GoodsStock: Model {
     static let goodsNameKey = "goodsName"
     
     
-    init(goodsId: Identifier,
+    init(userId: Identifier,
+         goodsId: Identifier,
          count: Int,
          price: Double,
          goodsName: String) {
+        self.userId = userId
         self.goodsId = goodsId
         self.count = count
         self.price = price
@@ -79,6 +81,7 @@ extension GoodsStock: Preparation {
 extension GoodsStock: JSONConvertible {
     convenience init(json: JSON) throws {
         try self.init(
+            userId: Identifier(-1),
             goodsId: json.get(GoodsStock.goodsIdKey),
             count: json.get(GoodsStock.countKey),
             price: json.get(GoodsStock.priceKey),

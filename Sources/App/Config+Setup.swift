@@ -26,5 +26,6 @@ extension Config {
         preparations.append(GoodsUnit.self)
         preparations.append(Goods.self)
         preparations.append(GoodsStock.self)
+        preparations.append(Timeline.self)
     }
 }

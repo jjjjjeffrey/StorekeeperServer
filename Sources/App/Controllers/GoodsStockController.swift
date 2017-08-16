@@ -34,6 +34,10 @@ final class GoodsStockController: ResourceRepresentable {
         
         stock.userId = try req.userId()
         try stock.save()
+        
+        let timeline = Timeline(stock: stock)
+        try timeline.save()
+        
         return AppResponse(data: try stock.makeJSON())
     }
     

@@ -118,6 +118,10 @@ extension User {
     var goodsStocks: Children<User, GoodsStock> {
         return children()
     }
+    
+    var timelines: Children<User, Timeline> {
+        return children()
+    }
 }
 
 
